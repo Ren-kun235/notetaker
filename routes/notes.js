@@ -6,13 +6,13 @@ const {
   writeToFile,
 } = require('../helpers/fsUtils');
 
-notes.get('/', (req, res) => {
-  readFromFile('./db/notes.json').then((data) => res.json(JSON.parse(data)));
+notes.get('/api/notes', (req, res) => {
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
-notes.get('/:notes_id', (req, res) => {
+notes.get('/api/notes', (req, res) => {
   const notesId = req.params.notes_id;
-  readFromFile('./db/notes.json')
+  readFromFile('./db/db.json')
     .then((data) => JSON.parse(data))
     .then((json) => {
       const result = json.filter((notes) => notes.notes_id === notesId);
@@ -25,17 +25,15 @@ notes.get('/:notes_id', (req, res) => {
 notes.post('/', (req, res) => {
   console.log(req.body);
 
-  const { username, topicNotes } = req.body;
+  const { notes } = req.body;
 
   if (req.body) {
     const newNotes = {
-      username,
       notes,
-      topic,
       notes_id: uuidv4(),
     };
 
-    readAndAppend(newNotes, './db/notes.json');
+    readAndAppend(newNotes, './db/db.json');
     res.json(`notes added successfully!`);
   } else {
     res.error('Error in adding notes');

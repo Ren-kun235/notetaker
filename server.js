@@ -1,38 +1,26 @@
-const express = require('express')
+const express = require('express');
+const path = require('path');
+const api = require('./routes/index');
 
 const PORT = 3001;
 
 const app = express();
 
-app.get('*', (req, res) => {
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api',api);
 
-    res.sendFile(path.join(__dirname, '/public/index.html'))
+app.use(express.static('public'));
 
-    // console.info(`${req.method}`);
+// app.get('*', (req, res) => {
 
-});
+//     res.sendFile(path.join(__dirname, '/public/index.html'))
+
+// });
 
 app.get('/notes', (req, res) => {
 
     res.sendFile(path.join(__dirname, '/public/notes.html'))
-  
-    // console.info(`${req.method}`);
-
-});
-
-app.get('/api/notes', (req, res) => {
-
-    // res.sendFile(path.join(__dirname, '/public/notes.html'))
-
-    // console.info(`${req.method}`);
-
-});
-
-app.post('/api/notes', (req, res) => {
-
-    // res.sendFile(path.join(__dirname, '/public/notes.html'))
-  
-    // console.info(`${req.method}`);
 
 });
 
